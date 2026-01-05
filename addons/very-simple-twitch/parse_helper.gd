@@ -19,8 +19,8 @@ static func parse_tags(input_string:String) -> VSTIRCTags:
 	var irc_tags = VSTIRCTags.new()
 	var tags:PackedStringArray = input_string.split(";")
 
-	for i in len(tags):
-		var splitted_tag:PackedStringArray = tags[i].split("=")
+	for tag in tags:
+		var splitted_tag:PackedStringArray = tag.split("=")
 
 		if splitted_tag.size() <= 1: continue
 
@@ -34,7 +34,15 @@ static func parse_tags(input_string:String) -> VSTIRCTags:
 			"emotes":
 				irc_tags.emotes = parse_emotes(splitted_tag[1].split("/"))
 			"room-id":
+				irc_tags.channel_id = splitted_tag[1]
+			"user-id":
 				irc_tags.user_id = splitted_tag[1]
+			"bits":
+				irc_tags.bits = int(splitted_tag[1])
+			"mod":
+				irc_tags.is_mod = bool(int(splitted_tag[1]))
+			"vip":
+				irc_tags.is_vip = bool(int(splitted_tag[1]))
 
 	return irc_tags
 
